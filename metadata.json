@@ -1,0 +1,10 @@
+
+{
+  "name": "VIP Advanced Mobile Assistant",
+  "description": "A high-end, mobile-first AI assistant featuring real-time voice interaction, face recognition simulation, and a comprehensive AI function registry powered by Gemini.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
