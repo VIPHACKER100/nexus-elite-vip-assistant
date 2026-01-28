@@ -160,8 +160,9 @@ const VoiceOverlay: React.FC<VoiceOverlayProps> = ({ onClose, onCommand, languag
                     // Cache the successful tool call for offline re-use
                     saveToCache({ action: fc.name, args: fc.args, text: lastTranscriptionRef.current });
 
+                    // Fix: functionResponses should be a direct object for Live API as per technical requirements
                     sessionPromise.then(s => s.sendToolResponse({
-                      functionResponses: [{ id: fc.id, name: fc.name, response: { result: "Success" } }]
+                      functionResponses: { id: fc.id, name: fc.name, response: { result: "Success" } }
                     }));
                     if (fc.name === 'close_voice_control') setTimeout(onClose, 1000);
                   }

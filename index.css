@@ -1,0 +1,59 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --nexus-blue: #3b82f6;
+  --nexus-indigo: #6366f1;
+  --nexus-bg: #050505;
+}
+
+@layer base {
+  body {
+    @apply bg-[#050505] text-white antialiased overflow-hidden selection:bg-blue-500/30;
+  }
+}
+
+@layer components {
+  .nexus-glass {
+    @apply bg-white/[0.03] backdrop-blur-2xl border border-white/10 saturate-[1.8];
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 24px);
+  }
+
+  /* Custom Scrollbar for Neural Interface */
+  .scrollbar-neural::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+  }
+  .scrollbar-neural::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  .scrollbar-neural::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+  }
+}
+
+/* Dynamic Ambient Blobs */
+.neural-blob {
+  position: absolute;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 100%;
+  opacity: 0.15;
+  transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0); }
+  33% { transform: translate(30px, -50px); }
+  66% { transform: translate(-20px, 40px); }
+}
+
+.animate-float {
+  animation: float 20s infinite ease-in-out;
+}
