@@ -14,6 +14,23 @@ export interface Message {
   }>;
 }
 
+export type AppLanguage = 'en' | 'hi' | 'hinglish';
+
+export interface Memory {
+  id: string;
+  fact: string;
+  timestamp: number;
+  category: 'personal' | 'preference' | 'habit';
+}
+
+export interface UserProfile {
+  name: string;
+  isAuthenticated: boolean;
+  language: AppLanguage;
+  memories: Memory[];
+  avatar?: string;
+}
+
 export interface AIFunction {
   id: string;
   name: string;
@@ -29,10 +46,4 @@ export enum FunctionCategory {
   SYSTEM = 'System',
   LIFESTYLE = 'Lifestyle',
   SECURITY = 'Security'
-}
-
-export interface UserProfile {
-  name: string;
-  isAuthenticated: boolean;
-  avatar?: string;
 }

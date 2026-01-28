@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 
 interface FaceOverlayProps {
@@ -137,7 +138,12 @@ const FaceOverlay: React.FC<FaceOverlayProps> = ({ onSuccess, onClose }) => {
   }, [onSuccess, onClose]);
 
   return (
-    <div className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-6 animate-in fade-in duration-500 backdrop-blur-xl">
+    <div 
+      role="dialog"
+      aria-modal="true"
+      aria-label="Biometric Facial Scan"
+      className="fixed inset-0 z-[100] bg-black/95 flex flex-col items-center justify-center p-6 animate-in fade-in duration-500 backdrop-blur-xl"
+    >
       <div className="relative w-full max-w-sm aspect-[3/4] rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] bg-[#050505]">
         {status !== 'ERROR' ? (
           <video 
@@ -145,19 +151,20 @@ const FaceOverlay: React.FC<FaceOverlayProps> = ({ onSuccess, onClose }) => {
             autoPlay 
             playsInline 
             muted 
+            aria-label="Live camera preview for facial scan"
             className="w-full h-full object-cover grayscale opacity-60 transition-opacity duration-1000"
             style={{ opacity: status === 'SCANNING' ? 0.8 : status === 'VERIFIED' ? 1 : 0.4 }}
           />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center p-10 text-center">
             <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6">
-                <i className="fa-solid fa-triangle-exclamation text-3xl text-red-500 animate-pulse"></i>
+                <i className="fa-solid fa-triangle-exclamation text-3xl text-red-500 animate-pulse" aria-hidden="true"></i>
             </div>
             <h3 className="text-white font-bold mb-2">SCANNER ERROR</h3>
-            <p className="text-white/40 text-xs leading-relaxed mb-8">{errorMessage}</p>
+            <p className="text-white/50 text-xs leading-relaxed mb-8">{errorMessage}</p>
             <button 
               onClick={() => window.location.reload()} 
-              className="px-6 py-2 rounded-full border border-white/10 text-[10px] font-black tracking-widest text-white/60 hover:text-white transition-colors"
+              className="px-6 py-2 rounded-full border border-white/10 text-[10px] font-black tracking-widest text-white/70 hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 outline-none"
             >
               SYSTEM REBOOT
             </button>
@@ -166,7 +173,7 @@ const FaceOverlay: React.FC<FaceOverlayProps> = ({ onSuccess, onClose }) => {
         
         {/* Scanning UI Elements */}
         {status !== 'ERROR' && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
               {/* Scan Circle */}
               <div className={`w-72 h-72 border border-white/5 rounded-full transition-all duration-700 flex items-center justify-center ${status === 'VERIFIED' ? 'border-amber-500/50 scale-105' : 'animate-[pulse_4s_infinite]'}`}>
                   <div className={`w-64 h-64 border-2 rounded-full transition-all duration-1000 ${status === 'VERIFIED' ? 'border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.3)]' : 'border-white/10'}`}>
@@ -188,8 +195,11 @@ const FaceOverlay: React.FC<FaceOverlayProps> = ({ onSuccess, onClose }) => {
 
         {/* Status Text Bar */}
         <div className="absolute bottom-10 left-0 right-0 text-center px-6 pointer-events-none">
-            <div className="bg-black/40 backdrop-blur-md py-2 px-4 rounded-full border border-white/5 inline-block">
-                <p className={`text-[10px] font-black tracking-[0.2em] uppercase ${status === 'VERIFIED' ? 'text-amber-500' : status === 'ERROR' ? 'text-red-500' : 'text-white/60'}`}>
+            <div className="bg-black/40 backdrop-blur-md py-2 px-4 rounded-full border border-white/10 inline-block">
+                <p 
+                  className={`text-[10px] font-black tracking-[0.2em] uppercase ${status === 'VERIFIED' ? 'text-amber-500' : status === 'ERROR' ? 'text-red-500' : 'text-white/70'}`}
+                  aria-live="assertive"
+                >
                     {status === 'IDLE' && 'Initializing...'}
                     {status === 'SCANNING' && 'Verifying Bio-Signature...'}
                     {status === 'VERIFIED' && 'Access Granted'}
@@ -201,7 +211,7 @@ const FaceOverlay: React.FC<FaceOverlayProps> = ({ onSuccess, onClose }) => {
 
       <button 
         onClick={onClose}
-        className="mt-12 text-[10px] font-black tracking-[0.3em] text-white/20 hover:text-white transition-all uppercase"
+        className="mt-12 text-[10px] font-black tracking-[0.3em] text-white/40 hover:text-white transition-all uppercase focus-visible:ring-1 focus-visible:ring-white outline-none p-2 rounded-lg"
       >
         CANCEL AUTHENTICATION
       </button>
